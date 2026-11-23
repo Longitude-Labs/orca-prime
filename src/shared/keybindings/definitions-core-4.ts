@@ -201,5 +201,15 @@ export const KEYBINDING_DEFINITION_CORE_4: readonly KeybindingDefinition[] = [
     conflictGroups: ['global', 'tabs', 'botItem'],
     searchKeywords: ['shortcut', 'bot', 'item', 'items', 'next', 'down'],
     defaultBindings: platformBindings(['Mod+Alt+ArrowDown'])
+  },
+  {
+    id: 'prManager.refresh',
+    title: 'Refresh pull requests',
+    group: 'PR Manager',
+    scope: 'prManager',
+    // Why: global and tab chords run first wherever focus is, so a rebind there would shadow this.
+    conflictGroups: ['global', 'tabs', 'prManager'],
+    searchKeywords: ['shortcut', 'pull request', 'pr', 'refresh', 'reload'],
+    defaultBindings: platformBindings(['Mod+R'])
   }
 ]

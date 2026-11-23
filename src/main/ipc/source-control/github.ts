@@ -3,6 +3,7 @@ import type { OrcaRuntimeService } from '../../runtime/orca-runtime'
 import type { StatsCollector } from '../../stats/collector'
 import { registerGitHubAccountHandlers } from './github-account-handlers'
 import { registerGitHubIssueMutationHandlers } from './github-issue-mutation-handlers'
+import { registerGitHubPRManagerHandlers } from './github-pr-manager-handlers'
 import { registerGitHubPRMutationHandlers } from './github-pr-mutation-handlers'
 import { registerGitHubPRReadHandlers } from './github-pr-read-handlers'
 import { registerGitHubPRRefreshHandlers } from './github-pr-refresh-handlers'
@@ -23,4 +24,5 @@ export function registerGitHubHandlers(
   registerGitHubIssueMutationHandlers(store)
   registerGitHubAccountHandlers(store)
   registerGitHubProjectViewHandlers()
+  registerGitHubPRManagerHandlers()
 }

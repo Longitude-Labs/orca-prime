@@ -111,6 +111,7 @@ export const UI_STATE_GLOBAL_FIELDS = [
   'hideBotCreatedWorkspaces',
   'botSidebarView',
   'botChatFolds',
+  'prManagerAdded',
   'agentsShowChildAgents',
   'agentsCompactMode',
   'agentsShowSearch',

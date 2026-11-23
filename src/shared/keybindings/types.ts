@@ -12,6 +12,7 @@ export type KeybindingScope =
   | 'chat'
   | 'settings'
   | 'botItem'
+  | 'prManager'
 
 export type KeybindingContext = 'app' | 'terminal' | 'browser'
 
@@ -132,6 +133,7 @@ export type KeybindingActionId =
   | 'botItem.back'
   | 'botItem.previous'
   | 'botItem.next'
+  | 'prManager.refresh'
   | PluginKeybindingActionId
 
 export type KeybindingOverrides = Partial<Record<KeybindingActionId, string[]>>

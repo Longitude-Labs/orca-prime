@@ -26,6 +26,8 @@ type MainOwnedUIState =
   // The moved-to-WSL list exists only on the desktop that moved the projects.
   | 'wslMovedSectionCollapsed'
   | 'hiddenWslMovedProjectKeys'
+  // PR Manager reads through this desktop's gh; a paired client keeps its own Added list.
+  | 'prManagerAdded'
 const _uiUpdateParity: AssertNoMissingKeys<
   Omit<PersistedUIState, MainOwnedUIState>,
   z.infer<UiUpdateFieldsSchema>

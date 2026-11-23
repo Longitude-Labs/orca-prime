@@ -36,6 +36,7 @@ import type { WorkspaceStatusDefinition } from '../worktree/types'
 import type { PersistedAutomationHostFilter } from '../automations/ownership/automation-host-filter'
 import type { PendingRuntimeRepoRemoval } from '../remote-runtime/host-catalog/pending-runtime-repo-removal'
 import type { BotSidebarView } from '../bots/bot-sidebar-view'
+import type { PrManagerAddedEntry } from '../github/pr-manager/pr-manager-types'
 
 export type PersistedUIState = {
   gitGraphFiltersByWorktree?: Record<string, GitHistoryRefs>
@@ -112,6 +113,8 @@ export type PersistedUIState = {
   botSidebarView?: BotSidebarView
   /** A bot chat's manual fold in Activity and the sidebar, by `botChatFoldKey`. Absent means none. */
   botChatFolds?: Record<string, BotChatFold>
+  /** PRs pasted into the PR Manager's Added section, newest first. Absent means none. */
+  prManagerAdded?: PrManagerAddedEntry[]
   /** Agents-view: include child (orchestration-dispatched) agent threads. Absent means off. */
   agentsShowChildAgents?: boolean
   /** Agents-view compact thread rows. Absent means on. */
