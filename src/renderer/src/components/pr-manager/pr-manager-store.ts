@@ -138,18 +138,23 @@ async function run(trigger: PrManagerRefreshTrigger): Promise<void> {
   const mineRead = plan.mine
     ? (async () => {
         const mine = plan.mine!
+        // A full read supersedes any Load more in flight; only the newest read may touch Mine.
         const generation = mine.append ? mineGeneration : ++mineGeneration
+        const isCurrent = (): boolean => generation === mineGeneration
         if (mine.append) {
           usePrManagerStore.setState({ loadingMore: true })
-        } else if (usePrManagerStore.getState().mine.length === 0) {
-          usePrManagerStore.setState({ mineStatus: 'loading' })
+        } else {
+          usePrManagerStore.setState((current) => ({
+            loadingMore: false,
+            ...(current.mine.length === 0 ? { mineStatus: 'loading' as const } : {})
+          }))
         }
         try {
           const page = await window.api.gh.prManagerListMine({
             first: mine.first,
             after: mine.after
           })
-          if (generation !== mineGeneration) {
+          if (!isCurrent()) {
             return
           }
           usePrManagerStore.setState((current) => ({
@@ -160,6 +165,9 @@ async function run(trigger: PrManagerRefreshTrigger): Promise<void> {
             mineError: null
           }))
         } catch (error) {
+          if (!isCurrent()) {
+            return
+          }
           usePrManagerStore.setState((current) => ({
             mineStatus: current.mine.length > 0 ? 'ready' : 'error',
             mineError: errorMessage(error)
@@ -171,7 +179,9 @@ async function run(trigger: PrManagerRefreshTrigger): Promise<void> {
             )
           }
         } finally {
-          usePrManagerStore.setState({ loadingMore: false })
+          if (mine.append && isCurrent()) {
+            usePrManagerStore.setState({ loadingMore: false })
+          }
         }
       })()
     : Promise.resolve()
