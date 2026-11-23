@@ -28,7 +28,8 @@ import type {
 
 export type PrManagerSelection = {
   ref: PrManagerRef
-  /** Set for a stack member opened from the header switcher; it is not added to the sidebar. */
+  /** The row as last seen: keeps the detail open when a refresh drops it from the lists, and
+   *  carries a stack member opened from the header switcher, which is not added to the sidebar. */
   transientRow?: PrManagerRow
 }
 
@@ -70,6 +71,8 @@ const initialState: PrManagerState = {
 export const usePrManagerStore = create<PrManagerState>(() => initialState)
 
 let hydration: Promise<void> | null = null
+/** Bumped by every full Mine read so a slower Load more cannot append onto a newer list. */
+let mineGeneration = 0
 
 function errorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error)
@@ -114,7 +117,13 @@ async function readAdded(refs: PrManagerRef[]): Promise<PrManagerRef[]> {
     return []
   }
   const result = await window.api.gh.prManagerRead({ refs })
-  setAdded((added) => applyAddedSnapshots(added, result.rows))
+  // GitHub answered "no such PR" (deleted, or access gone): drop it, as a paste would.
+  setAdded((added) =>
+    result.missing.reduce(
+      (entries, ref) => removeAddedEntry(entries, ref),
+      applyAddedSnapshots(added, result.rows)
+    )
+  )
   return result.missing
 }
 
@@ -129,6 +138,7 @@ async function run(trigger: PrManagerRefreshTrigger): Promise<void> {
   const mineRead = plan.mine
     ? (async () => {
         const mine = plan.mine!
+        const generation = mine.append ? mineGeneration : ++mineGeneration
         if (mine.append) {
           usePrManagerStore.setState({ loadingMore: true })
         } else if (usePrManagerStore.getState().mine.length === 0) {
@@ -139,6 +149,9 @@ async function run(trigger: PrManagerRefreshTrigger): Promise<void> {
             first: mine.first,
             after: mine.after
           })
+          if (generation !== mineGeneration) {
+            return
+          }
           usePrManagerStore.setState((current) => ({
             mine: mine.append ? [...current.mine, ...page.rows] : page.rows,
             mineHasMore: page.hasMore,
@@ -204,7 +217,7 @@ export async function refreshPrManager(): Promise<void> {
 
 export function loadMoreMinePullRequests(): void {
   const state = usePrManagerStore.getState()
-  if (state.loadingMore || !state.mineHasMore) {
+  if (state.loadingMore || state.refreshing || !state.mineHasMore) {
     return
   }
   void run({ kind: 'load-more' })

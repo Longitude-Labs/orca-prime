@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useEffectEvent, useMemo, useState } from 'react'
 import { ChevronDown, ExternalLink, Layers } from 'lucide-react'
 import { useTranslate } from '@/i18n/use-translate'
 import { Button } from '@/components/ui/button'
@@ -63,14 +63,17 @@ function StackSwitcher({ row }: { row: PrManagerRow }): React.JSX.Element | null
   const stack = row.stack
   const refreshGeneration = usePrManagerStore((s) => s.refreshGeneration)
   const stackKey = stack ? `${pullRequestRefKey(row)}:${stack.number}` : null
+  // Reads the current row's stack; the effect below decides when (a new stack, or Cmd-R).
+  const readStack = useEffectEvent((): Promise<PrManagerStackMember[]> =>
+    stack ? window.api.gh.prManagerStack({ ref: row, stack }) : Promise.resolve([])
+  )
   useEffect(() => {
-    if (!stack) {
+    if (!stackKey) {
       return
     }
     let cancelled = false
     setMembers(null)
-    window.api.gh
-      .prManagerStack({ ref: row, stack })
+    readStack()
       .then((next) => {
         if (!cancelled) {
           setMembers(next)
@@ -84,8 +87,6 @@ function StackSwitcher({ row }: { row: PrManagerRow }): React.JSX.Element | null
     return () => {
       cancelled = true
     }
-    // Reread on a new stack or on Cmd-R only.
-    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [stackKey, refreshGeneration])
   if (!stack) {
     return null
@@ -132,7 +133,7 @@ function StackSwitcher({ row }: { row: PrManagerRow }): React.JSX.Element | null
                   // Opening a stack member never adds it to the sidebar.
                   selectPullRequest(
                     known
-                      ? { ref }
+                      ? { ref, transientRow: known }
                       : {
                           ref,
                           transientRow: {
@@ -187,8 +188,8 @@ export function PrManagerDetail(): React.JSX.Element {
   )
 
   // Cmd-R rereads the open PR in place: the page keeps its tab, scroll and focus.
-  useEffect(() => {
-    if (refreshGeneration === 0 || !workItem || !contextRepo) {
+  const rereadOpenPullRequest = useEffectEvent((): void => {
+    if (!workItem || !contextRepo) {
       return
     }
     invalidateWorkItemDetailsCacheByMatch({
@@ -197,7 +198,11 @@ export function PrManagerDetail(): React.JSX.Element {
       type: 'pr',
       number: workItem.number
     })
-    // oxlint-disable-next-line react-hooks/exhaustive-deps
+  })
+  useEffect(() => {
+    if (refreshGeneration !== 0) {
+      rereadOpenPullRequest()
+    }
   }, [refreshGeneration])
 
   if (!selection) {

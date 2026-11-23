@@ -59,7 +59,7 @@ function Blocks({
         row={row}
         selected={key === selectedKey}
         showWarning={section === 'mine'}
-        onSelect={() => selectPullRequest({ ref: row })}
+        onSelect={() => selectPullRequest({ ref: row, transientRow: row })}
         onRemove={section === 'added' ? () => removeAddedPullRequest(row) : undefined}
       />
     )
