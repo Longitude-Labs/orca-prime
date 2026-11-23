@@ -11,6 +11,7 @@ import { navigateFromRail } from './app-rail-navigation'
 /** Pages that live on the rail below Workspaces, in this order. With the rail on, their list rows are not rendered. */
 export const APP_RAIL_DESTINATION_IDS = [
   'tasks',
+  'pr-manager',
   'automations',
   'artifacts',
   'skills',
@@ -24,6 +25,7 @@ const DESTINATION_VISIBLE: Record<
   (settings: AppState['settings']) => boolean
 > = {
   tasks: (settings) => settings?.showTasksButton !== false,
+  'pr-manager': () => true,
   automations: shouldShowAutomationsButton,
   artifacts: shouldShowArtifactsButton,
   skills: shouldShowSkillsButton,
@@ -32,6 +34,7 @@ const DESTINATION_VISIBLE: Record<
 
 const DESTINATION_OPEN: Record<AppRailDestinationId, (state: AppState) => void> = {
   tasks: (state) => state.openTaskPage(),
+  'pr-manager': (state) => state.openPrManagerPage(),
   automations: (state) => state.openAutomationsPage(),
   artifacts: (state) => state.openArtifactsPage(),
   skills: (state) => state.openSkillsPage(),

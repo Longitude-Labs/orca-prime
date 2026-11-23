@@ -4,6 +4,7 @@ import {
   CalendarClock,
   CircleHelp,
   Files,
+  GitPullRequest,
   Layers,
   List,
   Settings,
@@ -183,6 +184,8 @@ export function AppRail({
     switch (id) {
       case 'tasks':
         return t('auto.components.sidebar.SidebarNav.fee535205b', 'Tasks')
+      case 'pr-manager':
+        return t('prManager.title', 'PR Manager')
       case 'automations':
         return t('auto.components.sidebar.SidebarNav.f323383e9a', 'Automations')
       case 'artifacts':
@@ -197,6 +200,8 @@ export function AppRail({
     switch (id) {
       case 'tasks':
         return <List size={size} aria-hidden />
+      case 'pr-manager':
+        return <GitPullRequest size={size} aria-hidden />
       case 'automations':
         return <CalendarClock size={size} aria-hidden />
       case 'artifacts':

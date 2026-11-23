@@ -146,6 +146,8 @@ const STATIC_TITLE_COPY = {
   'botItem.back': () => translate('keybindings.title.botItemBack', 'Back to items'),
   'botItem.previous': () => translate('keybindings.title.botItemPrevious', 'Previous item'),
   'botItem.next': () => translate('keybindings.title.botItemNext', 'Next item'),
+  'prManager.refresh': () =>
+    translate('keybindings.title.prManagerRefresh', 'Refresh pull requests'),
   'terminal.toggleNativeChat': () =>
     translate('keybindings.title.terminalToggleNativeChat', 'Switch between Chat UI and terminal'),
   'sidebar.childWorkspaces.toggle': () =>
@@ -177,6 +179,7 @@ const GROUP_COPY = {
   'Terminal Panes': () => translate('keybindings.group.3492a954c8', 'Terminal panes'),
   Chat: () => translate('keybindings.group.chat', 'Chat'),
   Bots: () => translate('keybindings.group.bots', 'Bots'),
+  'PR Manager': () => translate('keybindings.group.prManager', 'PR Manager'),
   Agents: () => translate('keybindings.group.agents', 'Agents')
 } satisfies Record<string, () => string>
 

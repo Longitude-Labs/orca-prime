@@ -127,6 +127,16 @@ export function createUiViewActions(set: UISliceSet, get: UISliceGet): Partial<U
         activeView: state.previousViewBeforeArtifacts,
         worktreeNavHistoryIndex: rewindHistoryIndexPastView(state, 'artifacts')
       })),
+    openPrManagerPage: () =>
+      set((state) => ({
+        activeView: 'pr-manager',
+        previousViewBeforePrManager:
+          state.activeView === 'pr-manager' ? state.previousViewBeforePrManager : state.activeView
+      })),
+    closePrManagerPage: () =>
+      set((state) => ({
+        activeView: state.previousViewBeforePrManager
+      })),
     openMobilePage: () =>
       set((state) => ({
         activeView: 'mobile',

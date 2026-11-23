@@ -14,9 +14,17 @@ import type {
 import type { GitHubCreateIssueResult } from '../../../shared/work-items/issue-mutation-types'
 import type { TaskSourceContext } from '../../../shared/work-items/task-source-context'
 import type { PreloadApi } from '../../api-types'
+import type { PrManagerRef } from '../../../shared/github/pr-manager/pr-manager-types'
 
 export const ghPullRequestsAndWorkItemsApi = {
   viewer: () => ipcRenderer.invoke('gh:viewer'),
+  prManagerListMine: (args: { first?: number; after?: string | null }) =>
+    ipcRenderer.invoke('gh:prManagerListMine', args),
+  prManagerRead: (args: { refs: PrManagerRef[] }) => ipcRenderer.invoke('gh:prManagerRead', args),
+  prManagerStack: (args: {
+    ref: PrManagerRef
+    stack: { number: number; position: number; size: number }
+  }) => ipcRenderer.invoke('gh:prManagerStack', args),
   repoSlug: (args: { repoPath: string; repoId?: string }) =>
     ipcRenderer.invoke('gh:repoSlug', args),
   repoUpstream: (args: { repoPath: string; repoId?: string }) =>

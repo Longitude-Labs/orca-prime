@@ -90,7 +90,8 @@ export function mergeHostWebUIState(
     activityClearedAtByPaneKey: local.activityClearedAtByPaneKey,
     manuallyUnreadTurnsByPaneKey: local.manuallyUnreadTurnsByPaneKey,
     wslMovedSectionCollapsed: local.wslMovedSectionCollapsed,
-    hiddenWslMovedProjectKeys: local.hiddenWslMovedProjectKeys
+    hiddenWslMovedProjectKeys: local.hiddenWslMovedProjectKeys,
+    prManagerAdded: local.prManagerAdded
   } satisfies Record<PairingLocalUiField, unknown> & Partial<PersistedUIState>
   return {
     ...mergeWebUIState(local, incoming),

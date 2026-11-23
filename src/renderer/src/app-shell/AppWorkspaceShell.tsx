@@ -37,6 +37,8 @@ const ActivityPrototypePage = lazy(() => import('../components/activity/Activity
 const Settings = lazy(() => import('../components/settings/Settings'))
 const SkillsPage = lazy(() => import('../components/skills/SkillsPage'))
 const ArtifactsPage = lazy(() => import('../components/artifacts/ArtifactsPage'))
+const PrManagerPage = lazy(() => import('../components/pr-manager/PrManagerPage'))
+import { usePrManagerGlobalPaste } from '../components/pr-manager/use-pr-manager-global-paste'
 const WorkspaceSpacePage = lazy(() => import('../components/workspace-space/WorkspaceSpacePage'))
 const MobilePage = lazy(() => import('../components/mobile/MobilePage'))
 const HandToBotFlow = lazy(() =>
@@ -126,6 +128,11 @@ function BotTemplatesMount(): React.JSX.Element | null {
   ) : null
 }
 
+function PrManagerPasteMount(): null {
+  usePrManagerGlobalPaste()
+  return null
+}
+
 function HandToBotMount(): React.JSX.Element | null {
   const request = useHandToBotRequest()
   return request ? (
@@ -147,9 +154,11 @@ function ActivePage({ layout }: { layout: AppChromeLayout }): React.JSX.Element 
       {activeView === 'activity' ? <ActivityPrototypePage /> : null}
       {activeView === 'space' ? <WorkspaceSpacePage /> : null}
       {activeView === 'mobile' ? <MobilePage /> : null}
+      {activeView === 'pr-manager' ? <PrManagerPage /> : null}
       <BotShareReceiveMount />
       <BotTemplatesMount />
       <HandToBotMount />
+      <PrManagerPasteMount />
       <Suspense fallback={null}>
         <GitHubInstallMount />
       </Suspense>

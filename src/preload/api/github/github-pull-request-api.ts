@@ -25,9 +25,21 @@ import type {
 } from '../../../shared/github/pull-requests/pull-request-types'
 import type { GetRateLimitResult } from '../../../shared/github/api/rate-limit-types'
 import type { GitHubRepoSelectorArgs } from './github-work-item-api'
+import type {
+  PrManagerMinePage,
+  PrManagerReadResult,
+  PrManagerRef,
+  PrManagerStackMember
+} from '../../../shared/github/pr-manager/pr-manager-types'
 
 export type GithubPullRequestApi = {
   viewer: () => Promise<GitHubViewer | null>
+  prManagerListMine: (args: { first?: number; after?: string | null }) => Promise<PrManagerMinePage>
+  prManagerRead: (args: { refs: PrManagerRef[] }) => Promise<PrManagerReadResult>
+  prManagerStack: (args: {
+    ref: PrManagerRef
+    stack: { number: number; position: number; size: number }
+  }) => Promise<PrManagerStackMember[]>
   repoSlug: (args: {
     repoPath: string
     repoId?: string

@@ -26182,7 +26182,8 @@
       "d286d1ab85": "Clear pane title",
       "botItemBack": "Back to items",
       "botItemPrevious": "Previous item",
-      "botItemNext": "Next item"
+      "botItemNext": "Next item",
+      "prManagerRefresh": "Refresh pull requests"
     },
     "group": {
       "global": "Global",
@@ -26196,7 +26197,8 @@
       "45347db2a3": "Tab navigation",
       "aab2837fa5": "Quick commands",
       "3492a954c8": "Terminal panes",
-      "bots": "Bots"
+      "bots": "Bots",
+      "prManager": "PR Manager"
     },
     "searchKeyword": {
       "worktreePaletteFormerTitle": "Switch worktree"
@@ -29929,5 +29931,51 @@
       "workerOwed": "An orchestration still waits on this chat",
       "home": "A managed agent's Home Chat can't be deleted"
     }
+  },
+  "prManager": {
+    "title": "PR Manager",
+    "stackPosition": "Stack · {{position}} of {{size}}",
+    "stackLoading": "Loading stack…",
+    "stackUnavailable": "Stack details are unavailable.",
+    "detailLoading": "Loading pull request…",
+    "openOnGitHub": "Open on GitHub",
+    "emptyTitle": "Pick a pull request",
+    "emptyBody": "Paste a GitHub PR link, or press {{paste}} anywhere in Orca, to open it. {{refresh}} refreshes the lists.",
+    "pastePlaceholder": "Paste a GitHub PR link",
+    "pasteLabel": "Add a pull request by link",
+    "pasteInvalid": "That is not a GitHub pull request link.",
+    "searchPlaceholder": "Filter these pull requests",
+    "searchLabel": "Filter pull requests in the sidebar",
+    "section": {
+      "mine": "Mine",
+      "added": "Added"
+    },
+    "mineLoading": "Loading your pull requests…",
+    "mineError": "Could not load your pull requests. Press {{shortcut}} to retry.",
+    "noMatches": "No matches.",
+    "mineEmpty": "No open pull requests.",
+    "loadMore": "Load more…",
+    "addedEmpty": "Paste a pull request link above, or press {{paste}} anywhere, to add one.",
+    "refresh": "Refresh",
+    "refreshTooltip": "Refresh ({{shortcut}})",
+    "state": {
+      "draft": "Draft",
+      "queued": "Queued",
+      "open": "Open",
+      "merged": "Merged",
+      "closed": "Closed"
+    },
+    "warning": {
+      "conflictsAndChecks": "Merge conflicts and failing required checks",
+      "conflicts": "Merge conflicts",
+      "checks": "Failing required checks"
+    },
+    "remove": "Remove from Added",
+    "addProject": "Add project…",
+    "summaryHint": "Conversation, checks and files open here once {{repo}} is a project in Orca.",
+    "mineLoadFailed": "Could not load your pull requests.",
+    "addedLoadFailed": "Could not refresh added pull requests.",
+    "notFound": "Could not find {{ref}}.",
+    "addFailed": "Could not load that pull request."
   }
 }

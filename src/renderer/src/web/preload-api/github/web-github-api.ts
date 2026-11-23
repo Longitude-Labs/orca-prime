@@ -23,6 +23,10 @@ export function createGitHubApi(): WebGitHubApi {
     callRuntimeResult<Result>(method, mapRepoPathArg(args))
   const githubApi = {
     viewer: () => Promise.resolve(null),
+    // PR Manager reads use the desktop's own gh; the web client has none to read through.
+    prManagerListMine: () => Promise.resolve({ rows: [], hasMore: false, endCursor: null }),
+    prManagerRead: () => Promise.resolve({ rows: [], missing: [] }),
+    prManagerStack: () => Promise.resolve([]),
     repoSlug: (args) => route<WebGitHubResult<'repoSlug'>>(GITHUB_WEB_RPC_METHODS.repoSlug, args),
     repoUpstream: (args) =>
       route<WebGitHubResult<'repoUpstream'>>(GITHUB_WEB_RPC_METHODS.repoUpstream, args),

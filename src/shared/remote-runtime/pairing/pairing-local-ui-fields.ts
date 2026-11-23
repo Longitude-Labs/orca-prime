@@ -25,6 +25,8 @@ export const PAIRING_LOCAL_UI_FIELDS = [
   'hideBotCreatedWorkspaces',
   'botSidebarView',
   'botChatFolds',
+  // PR Manager reads through this desktop's gh; old hosts reject the unknown key.
+  'prManagerAdded',
   'agentsShowChildAgents',
   'agentsCompactMode',
   'agentsShowSearch',

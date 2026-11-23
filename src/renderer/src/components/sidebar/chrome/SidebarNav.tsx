@@ -1,5 +1,13 @@
 import React from 'react'
-import { BookOpen, CalendarClock, EyeOff, Files, Search, Smartphone } from 'lucide-react'
+import {
+  BookOpen,
+  CalendarClock,
+  EyeOff,
+  Files,
+  GitPullRequest,
+  Search,
+  Smartphone
+} from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAppStore } from '@/store/index'
 import { cn } from '@/lib/class-names'
@@ -62,6 +70,7 @@ const SidebarNav = React.memo(function SidebarNav() {
   const openMobilePage = useAppStore((s) => s.openMobilePage)
   const openArtifactsPage = useAppStore((s) => s.openArtifactsPage)
   const openSkillsPage = useAppStore((s) => s.openSkillsPage)
+  const openPrManagerPage = useAppStore((s) => s.openPrManagerPage)
   const openModal = useAppStore((s) => s.openModal)
   const updateSettings = useAppStore((s) => s.updateSettings)
   const activeView = useAppStore((s) => s.activeView)
@@ -76,6 +85,7 @@ const SidebarNav = React.memo(function SidebarNav() {
   const mobileActive = activeView === 'mobile'
   const artifactsActive = activeView === 'artifacts'
   const skillsActive = activeView === 'skills'
+  const prManagerActive = activeView === 'pr-manager'
   // The badge's paired-device lookup runs only while the list shows the Mobile row.
   const mobileOnboardingBadge = useMobileSidebarOnboardingBadge(showMobileButton && !appRailVisible)
   const hideAutomationsButton = React.useCallback(() => {
@@ -131,6 +141,29 @@ const SidebarNav = React.memo(function SidebarNav() {
       </button>
       <SetupGuideSidebarEntry />
       {appRailVisible ? null : <SidebarTaskNavButton />}
+      {appRailVisible ? null : (
+        <button
+          type="button"
+          onClick={openPrManagerPage}
+          aria-current={prManagerActive ? 'page' : undefined}
+          className={cn(
+            'flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[13px] font-medium tracking-tight transition-colors',
+            prManagerActive
+              ? 'bg-worktree-sidebar-accent text-worktree-sidebar-accent-foreground'
+              : 'text-worktree-sidebar-foreground/60 hover:bg-worktree-sidebar-foreground/8'
+          )}
+          data-sidebar-pr-manager
+        >
+          <GitPullRequest
+            className={cn(
+              'size-4 shrink-0',
+              !prManagerActive && 'text-worktree-sidebar-foreground/30'
+            )}
+            strokeWidth={prManagerActive ? 2.25 : 1.75}
+          />
+          <span className="flex-1">{t('prManager.title', 'PR Manager')}</span>
+        </button>
+      )}
       {showArtifactsButton && !appRailVisible ? (
         <ContextMenu>
           <ContextMenuTrigger asChild>
